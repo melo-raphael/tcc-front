@@ -1,0 +1,153 @@
+.dashboard-container {
+    width: 100%;
+    max-width: 1180px;
+    padding: 0 30px;
+    margin: 32px auto;
+}
+
+.dashboard-container header {
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-container img {
+    height: 64px;
+}
+
+.dashboard-container a {
+    width: 180px;
+    margin-left: auto;
+    margin-top: 0;
+    color: #000;
+}
+
+.dashboard-container button {
+    height: 60px;
+    width: 60px;
+    border-radius: 4px;
+    border: 1px solid #dcdce6;
+    background: transparent;
+    margin-left: 16px;
+    transition: border-color 0.2s;
+}
+
+.dashboard-container button:hover {
+    border-color: #999;
+}
+
+.dashboard-container h1 {
+    margin-top: 80px;
+    margin-bottom: 24px;
+}
+
+.dashboard-container ul {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 24px;
+    list-style: none;
+}
+
+.dashboard-container ul li {
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.dashboard-container ul li .card-header {
+    display: flex;
+    justify-content: center;
+}
+
+.dashboard-container ul li .card-header .asset-image {
+    display: block;
+    margin-bottom: 16px;
+    margin-right: 20px;
+    border: 1.5px solid #DFDFDF;
+    border-radius: 6px;
+    width: 30%;
+
+}
+
+.dashboard-container ul li .card-header .asset-image img {
+    padding: 6px;
+    width: 90%;
+}
+
+.dashboard-container ul li .card-header .asset-info {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+}
+.dashboard-container ul li .card-header .asset-info h3 {
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.dashboard-container ul li .card-header .asset-info .info-details {
+    display: flex;
+    justify-content: space-around;
+    font-weight: 500;
+    margin-top: 20px;
+    padding-left: 40px;
+}
+
+.dashboard-container ul li .card-header .asset-info .info-details span {
+    font-size: 16px;
+}
+
+.dashboard-container ul li .card-header .asset-info .info-details span + span {
+    margin-left: 50px;
+}
+
+.dashboard-container ul li .divider {
+    width: 100%;
+    max-width: 450px;
+    border-top: 3px solid #F0F0F5;
+    display: block;
+    line-height: 4px;
+    margin: 15px 0;
+    position: relative;
+    text-align: center;
+}
+
+.dashboard-container ul li .graph-container .graph-header {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.dashboard-container ul li .buy-sell-area {
+    display: flex;
+    justify-content: space-between;  
+}
+
+.dashboard-container ul li .buy-sell-area .button-buy-sell {
+    width: 100px;
+    border: 2px solid #707070;
+    border-radius: 10px;
+    height: 100px;
+    cursor: pointer;
+    
+}
+/* ajustar cor no header e do priece */
+.dashboard-container ul li .buy-sell-area .button-buy-sell .buy-sell-header {
+    border: none;
+    border-bottom: 2px solid #707070;
+    padding:6px;
+    box-sizing: border-box;
+
+}
+
+.dashboard-container ul li .buy-sell-area .button-buy-sell .price{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8A05BE;
+    font-weight: 500;
+    font-size: 18px;
+
+}
