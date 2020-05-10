@@ -122,24 +122,29 @@
 
 .dashboard-container ul li .buy-sell-area {
     display: flex;
-    justify-content: space-between;  
+    justify-content: space-between;
 }
 
 .dashboard-container ul li .buy-sell-area .button-buy-sell {
     width: 100px;
-    border: 2px solid #707070;
+    border: 1px solid #707070;
     border-radius: 10px;
-    height: 100px;
+    height: 80px;
     cursor: pointer;
+    background: #F7F7F7;
     
 }
-/* ajustar cor no header e do priece */
+
 .dashboard-container ul li .buy-sell-area .button-buy-sell .buy-sell-header {
     border: none;
-    border-bottom: 2px solid #707070;
-    padding:6px;
+    border-bottom: 1px solid #707070;
+    padding: 8px;
+    border-radius: 10px 10px 0 0;
+    background: #ECECEC;
     box-sizing: border-box;
-
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 13px;
 }
 
 .dashboard-container ul li .buy-sell-area .button-buy-sell .price{
@@ -149,5 +154,5 @@
     color: #8A05BE;
     font-weight: 500;
     font-size: 18px;
-
+    height: 60%;
 }
