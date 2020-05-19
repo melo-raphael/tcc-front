@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import './styles.css';
 
 import logo from '../../assets/logo.svg';
+import loagingImage from '../../assets/loading.gif';
 import { Link } from 'react-router-dom';
 import { FaPowerOff } from 'react-icons/fa';
 import api from '../../services/api';
 
 export default function Dashboard () {
+    
     
     const [assets, setAssets] = useState([]);
     
@@ -32,9 +34,10 @@ export default function Dashboard () {
             </header>
 
             <h1>Ativos disponíveis</h1>
+            {assets.length === 0 ? (<img src={loagingImage} />) :
 
-            <ul>
-                { assets.map(asset => (
+            (<ul>
+            { assets.map(asset => (
                 <li key={ asset.name }>
                     <div className="card-header">
                         <div className="asset-image">
@@ -83,11 +86,9 @@ export default function Dashboard () {
                         </div>
                     </div>
                 </li>
-                ))}
-                {/* so pra teste */}
-               
-
-            </ul>
+            ))}
+            </ul>)
+}
         </div>
     );
 }
