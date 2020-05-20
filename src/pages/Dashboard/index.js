@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 import './styles.css';
-
+import Loading from '../../components/Loading';
 import logo from '../../assets/logo.svg';
-import loagingImage from '../../assets/loading.gif';
+
 import { Link } from 'react-router-dom';
 import { FaPowerOff } from 'react-icons/fa';
 import api from '../../services/api';
 
 export default function Dashboard () {
-    
     
     const [assets, setAssets] = useState([]);
     
@@ -34,7 +33,7 @@ export default function Dashboard () {
             </header>
 
             <h1>Ativos disponíveis</h1>
-            {assets.length === 0 ? (<img src={loagingImage} />) :
+            {assets.length === 0 ? <Loading /> :
 
             (<ul>
             { assets.map(asset => (
