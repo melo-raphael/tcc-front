@@ -6,16 +6,18 @@ import { Link } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import logo from '../../assets/logo.svg';
 
+
 export default function Register () {
 
+    
     return(
         <div className="register-container">
             <div className="content">
                 <section>
                     <img src={logo} alt="trader logo"/>
                     <h1>Cadastro</h1>
-                    <p>Faça seu cadastro, entre na plataform 
-                        e comece a lucar com trades da bolsa de valores.
+                    <p>Faça seu cadastro, entre na plataforma 
+                        e comece a lucrar com trades da bolsa de valores.
                     </p>
 
                     <Link className="default-link" to="/"> 

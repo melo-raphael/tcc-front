@@ -136,6 +136,7 @@
 }
 
 .dashboard-container ul li .buy-sell-area .button-buy-sell .buy-sell-header {
+    display: flex;
     border: none;
     border-bottom: 1px solid #707070;
     padding: 8px;
@@ -145,6 +146,8 @@
     font-weight: 500;
     text-transform: uppercase;
     font-size: 13px;
+    justify-content: center;
+    align-items: center;
 }
 
 .dashboard-container ul li .buy-sell-area .button-buy-sell .price{

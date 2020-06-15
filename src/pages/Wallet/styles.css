@@ -1,0 +1,86 @@
+.wallet-container {
+    width: 100%;
+    max-width: 1180px;
+    padding: 0 30px;
+    margin: 32px auto;
+}
+
+.wallet-container header {
+    display: flex;
+    align-items: center;
+}
+
+.wallet-container img {
+    height: 64px;
+}
+
+.wallet-container a {
+    width: 180px;
+    margin-left: auto;
+    margin-top: 0;
+    color: #000;
+}
+
+.wallet-container button {
+    height: 60px;
+    width: 60px;
+    border-radius: 4px;
+    border: 1px solid #dcdce6;
+    background: transparent;
+    margin-left: 16px;
+    transition: border-color 0.2s;
+}
+
+.wallet-container button:hover {
+    border-color: #999;
+}
+
+.wallet-container h1 {
+    margin-top: 80px;
+    margin-bottom: 24px;
+}
+
+.wallet-container .positions {
+    width: 100%;
+    background: #fff;
+    border-radius: 8px;
+    
+}
+
+.wallet-container .positions .positions-header {
+    padding: 30px;
+    padding-right: 40px;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    color: #000;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.wallet-container .positions .divider {
+    height: 2px;
+    background-color: #A9A9A9;
+    width: 100%;
+}
+.wallet-container .positions ul {
+    list-style: none;
+}
+
+.wallet-container ul li {
+    padding: 30px 30px 30px 40px;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    color: #696969;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.wallet-container ul li .quantity {
+    padding-left: 50px;
+}
