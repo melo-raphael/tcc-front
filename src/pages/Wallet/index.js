@@ -45,27 +45,18 @@ function Wallet() {
                 </div>
                 <div className="divider"></div>
                 <ul>
-                   <li>
-                       <p>Petr4</p>
-                       <p className="quantity">100</p>
-                       <p>R$ 10,00</p>
-                       <p>Compra</p>
-                   </li>
-                   <div className="divider"></div>
-                   <li>
-                       <p>Petr4</p>
-                       <p className="quantity">100</p>
-                       <p>R$ 10,00</p>
-                       <p>Compra</p>
-                   </li>
-                   <div className="divider"></div>
-                   <li>
-                       <p>Petr4</p>
-                       <p className="quantity">100</p>
-                       <p>R$ 10,00</p>
-                       <p>Compra</p>
-                   </li>
-                   <div className="divider"></div>
+                    {listaAtivos.map(asset => (
+                        <>
+                        <li>
+                            <p>{asset.assetId}</p>
+                            <p className="quantity">{asset.amount}</p>
+                            <p>{asset.value}</p>
+                            <p>{asset.type.toUpperCase()}</p>
+                        </li>
+                        <div className="divider"></div>
+                        </>
+                    ))}
+                   
                 </ul>
                 <div className="positions-header">
                     {/* simbolo, quantidade, preco, tipo  */}
