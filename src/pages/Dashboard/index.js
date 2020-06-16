@@ -18,7 +18,7 @@ export default function Dashboard () {
     const [assetsFromSocket, setAssetFromSocket] = useState([]);
 
     
-    localStorage.getItem('listaAtivos');
+    
     const  listaAtivos = [JSON.stringify({
         userId: userId,
         assetId: 'PETR4',
@@ -87,26 +87,26 @@ export default function Dashboard () {
         }
 
         if (type === 'sell') {
-            if (ativos.some(ativo => ativo.symbol === assetId)) {
+            if (ativos.some(ativo => ativo.assetId === assetId)) {
 
                 ativos.map(ativo => {
-                    if (ativo === assetId && ativo.amount === 100) {
-                       ativos = ativos.filter(ativoF => ativoF.symbol === assetId);
+                    if (ativo.assetId === assetId && ativo.amount === 100) {
+                       ativos = ativos.filter(ativoF => ativoF.assetId === assetId);
                     }
                    
                 });
             } else {
                 ativos.map(ativo => {
-                    if (ativo === assetId && ativo.amount === 100) {
+                    if (ativo.assetId === assetId && ativo.amount === 100) {
                         ativo.amount = ativo.amount - 100;
                     }
                    
                 });
             }
         } else {
-            if (ativos.some(ativo => ativo.symbol === assetId)) {
+            if (ativos.some(ativo => ativo.assetId === assetId)) {
                 ativos.map(ativo => {
-                    if (ativo.symbol === assetId) {
+                    if (ativo.assetId === assetId) {
                         ativo.amount = ativo.amount + 100;
                     }
     
@@ -116,9 +116,9 @@ export default function Dashboard () {
             }
         }
 
-        listaAtivos.push(JSON.stringify(data));
+        
         localStorage.removeItem('listaAtivos');
-        localStorage.setItem('listaAtivos', listaAtivos);
+        localStorage.setItem('listaAtivos', JSON.stringify(ativos));
 
          const response = await api.post("order/managament/order", data,  { headers: {Authorization: `Bearer ${token}`} });
 
