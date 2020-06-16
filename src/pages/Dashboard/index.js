@@ -19,7 +19,7 @@ export default function Dashboard () {
 
     
     
-    const  listaAtivos = [JSON.stringify({
+    const  listaAtivos = JSON.stringify([{
         userId: userId,
         assetId: 'PETR4',
         value: parseFloat('21.37'),
@@ -31,7 +31,7 @@ export default function Dashboard () {
         value: parseFloat('0.980'),
         type: 'sell',
         amount: 100
-    })];
+    }]);
 
     localStorage.setItem('listaAtivos', listaAtivos);
 
@@ -92,17 +92,12 @@ export default function Dashboard () {
                 ativos.map(ativo => {
                     if (ativo.assetId === assetId && ativo.amount === 100) {
                        ativos = ativos.filter(ativoF => ativoF.assetId === assetId);
-                    }
-                   
-                });
-            } else {
-                ativos.map(ativo => {
-                    if (ativo.assetId === assetId && ativo.amount === 100) {
+                    }if(ativo.assetId === assetId && ativo.amount > 100){
                         ativo.amount = ativo.amount - 100;
                     }
                    
                 });
-            }
+            } 
         } else {
             if (ativos.some(ativo => ativo.assetId === assetId)) {
                 ativos.map(ativo => {
