@@ -19,21 +19,23 @@ export default function Dashboard () {
 
     
     
-    const  listaAtivos = JSON.stringify([{
-        userId: userId,
-        assetId: 'PETR4',
-        value: parseFloat('21.37'),
-        type: 'buy',
-        amount: 100
-    },{
-        userId: userId,
-        assetId: 'OIBR3',
-        value: parseFloat('0.980'),
-        type: 'buy',
-        amount: 100
-    }]);
+    // const  listaAtivos = JSON.stringify([{
+    //     userId: userId,
+    //     assetId: 'PETR4',
+    //     value: parseFloat('21.37'),
+    //     type: 'buy',
+    //     amount: 100
+    // },{
+    //     userId: userId,
+    //     assetId: 'OIBR3',
+    //     value: parseFloat('0.980'),
+    //     type: 'buy',
+    //     amount: 100
+    // }]);
 
-    localStorage.setItem('listaAtivos', listaAtivos);
+    // localStorage.setItem('listaAtivos', listaAtivos);
+
+    const listaAtivos = localStorage.getItem('listaAtivos');
 
     const token = localStorage.getItem('jwtToken');
 
@@ -75,12 +77,19 @@ export default function Dashboard () {
         history.push('/');
     }
 
-    async function handleBuyOrSell(assetId, price, type) {
+    async function handleBuyOrSell(id, assetId, price, type) {
         let ativos = JSON.parse(listaAtivos);
 
         const data = {
             userId: userId,
             assetId: assetId,
+            value: parseFloat('12.05'),
+            type: type,
+            amount: 100
+        }
+        const dataToReq = {
+            userId: userId,
+            assetId: id,
             value: parseFloat('12.05'),
             type: type,
             amount: 100
@@ -115,7 +124,7 @@ export default function Dashboard () {
         localStorage.removeItem('listaAtivos');
         localStorage.setItem('listaAtivos', JSON.stringify(ativos));
 
-         const response = await api.post("order/managament/order", data,  { headers: {Authorization: `Bearer ${token}`} });
+         const response = await api.post("order/managament/order", dataToReq,  { headers: {Authorization: `Bearer ${token}`} });
 
         // console.log('compra ou venda',response)
 
@@ -198,7 +207,7 @@ export default function Dashboard () {
                     </div>
 
                     <div className="buy-sell-area">
-                        <div className="button-buy-sell" onClick={() => handleBuyOrSell(asset.symbol, getPriceBySymbol(asset.symbol) , 'sell')}>
+                        <div className="button-buy-sell" onClick={() => handleBuyOrSell(asset.id, asset.symbol, getPriceBySymbol(asset.symbol) , 'sell')}>
                             <div className="buy-sell-header">
                                 Vender
                             </div>
@@ -207,7 +216,7 @@ export default function Dashboard () {
                             </div>
                         </div>
 
-                        <div className="button-buy-sell" onClick={() => handleBuyOrSell(asset.symbol, getPriceBySymbol(asset.symbol) , 'buy')}>
+                        <div className="button-buy-sell" onClick={() => handleBuyOrSell(asset.id, asset.symbol, getPriceBySymbol(asset.symbol) , 'buy')}>
                             <div className="buy-sell-header">
                                 Comprar
                             </div>

@@ -28,6 +28,22 @@ export default function Login () {
             
             
                 localStorage.setItem('jwtToken', jwt);
+
+                const  listaAtivos = JSON.stringify([{
+                    userId: "b07038b7-9e3a-4df9-bdc3-0f87b35a91c9",
+                    assetId: 'PETR4',
+                    value: parseFloat('21.37'),
+                    type: 'buy',
+                    amount: 100
+                },{
+                    userId: "b07038b7-9e3a-4df9-bdc3-0f87b35a91c9",
+                    assetId: 'OIBR3',
+                    value: parseFloat('0.980'),
+                    type: 'buy',
+                    amount: 100
+                }]);
+            
+                localStorage.setItem('listaAtivos', listaAtivos);
             
                 history.push('/dashboard');
             
