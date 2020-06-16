@@ -17,6 +17,24 @@ export default function Dashboard () {
     const [todayDate, setTodayDate] = useState('');
     const [assetsFromSocket, setAssetFromSocket] = useState([]);
 
+    
+    localStorage.getItem('listaAtivos');
+    const  listaAtivos = [JSON.stringify({
+        userId: userId,
+        assetId: 'PETR4',
+        value: parseFloat('21.37'),
+        type: 'sell',
+        amount: 100
+    },{
+        userId: userId,
+        assetId: 'OIBR3',
+        value: parseFloat('0.980'),
+        type: 'sell',
+        amount: 100
+    })];
+
+    localStorage.setItem('listaAtivos', listaAtivos);
+
     const token = localStorage.getItem('jwtToken');
 
     const history = useHistory();
@@ -58,24 +76,62 @@ export default function Dashboard () {
     }
 
     async function handleBuyOrSell(assetId, price, type) {
+        let ativos = JSON.parse(listaAtivos);
 
         const data = {
             userId: userId,
             assetId: assetId,
-            value: parseFloat(price),
+            value: parseFloat('12.05'),
             type: type,
             amount: 100
         }
 
-        const response = await api.post("order/managament/order", data,  { headers: {Authorization: `Bearer ${token}`} });
+        if (type === 'sell') {
+            if (ativos.some(ativo => ativo.symbol === assetId)) {
 
-        console.log('compra ou venda',response)
+                ativos.map(ativo => {
+                    if (ativo === assetId && ativo.amount === 100) {
+                       ativos = ativos.filter(ativoF => ativoF.symbol === assetId);
+                    }
+                   
+                });
+            } else {
+                ativos.map(ativo => {
+                    if (ativo === assetId && ativo.amount === 100) {
+                        ativo.amount = ativo.amount - 100;
+                    }
+                   
+                });
+            }
+        } else {
+            if (ativos.some(ativo => ativo.symbol === assetId)) {
+                ativos.map(ativo => {
+                    if (ativo.symbol === assetId) {
+                        ativo.amount = ativo.amount + 100;
+                    }
+    
+                })
+            } else {
+                ativos.push(data);
+            }
+        }
+
+        listaAtivos.push(JSON.stringify(data));
+        localStorage.removeItem('listaAtivos');
+        localStorage.setItem('listaAtivos', listaAtivos);
+
+         const response = await api.post("order/managament/order", data,  { headers: {Authorization: `Bearer ${token}`} });
+
+        // console.log('compra ou venda',response)
 
     }
 
     
     useEffect(() => {
          (async function fecth() {
+
+            
+
             const decodedToken = jwtDecode(token);
             const { nameid } = decodedToken;
 
@@ -147,7 +203,7 @@ export default function Dashboard () {
                     </div>
 
                     <div className="buy-sell-area">
-                        <div className="button-buy-sell" onClick={() => handleBuyOrSell(asset.id,'12.25' , 'sell')}>
+                        <div className="button-buy-sell" onClick={() => handleBuyOrSell(asset.symbol, getPriceBySymbol(asset.symbol) , 'sell')}>
                             <div className="buy-sell-header">
                                 Vender
                             </div>
@@ -156,7 +212,7 @@ export default function Dashboard () {
                             </div>
                         </div>
 
-                        <div className="button-buy-sell" onClick={() => handleBuyOrSell(asset.id, getPriceBySymbol(asset.symbol) , 'buy')}>
+                        <div className="button-buy-sell" onClick={() => handleBuyOrSell(asset.symbol, getPriceBySymbol(asset.symbol) , 'buy')}>
                             <div className="buy-sell-header">
                                 Comprar
                             </div>

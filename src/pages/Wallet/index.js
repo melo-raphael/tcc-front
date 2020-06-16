@@ -10,6 +10,12 @@ function Wallet() {
     const socketUrl = 'http://localhost:5000/hub/notification';
     const history = useHistory();
 
+    const lixo = localStorage.getItem('listaAtivos');
+    console.log('listaAtivos', JSON.parse(lixo))
+    let listaAtivos = JSON.parse(lixo);
+
+
+
     function handleLogout() {
         localStorage.clear();
         history.push('/');

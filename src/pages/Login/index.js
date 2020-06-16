@@ -7,10 +7,11 @@ import {FaSignInAlt} from 'react-icons/fa';
 import loginImage from '../../assets/login-image.svg';
 
 import logo from '../../assets/logo.svg';
+import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 
 export default function Login () {
-    const loginUrl = 'http://localhost:9000/im/identity';
+    const loginUrl = 'http://ec2-18-228-245-140.sa-east-1.compute.amazonaws.com:9000/im/identity';
     const history = useHistory();
 
     const [email, setEmail] = useState('');
@@ -25,10 +26,11 @@ export default function Login () {
             const loginResponse = await axios.post( loginUrl, data);
             const { jwt } = loginResponse.data.data;
             
-            if (loginResponse.status === 201) {
+            
                 localStorage.setItem('jwtToken', jwt);
+            
                 history.push('/dashboard');
-            }
+            
         } catch(err) {
             alert(`erro no login usuário ou senha incorretos`);
         }
