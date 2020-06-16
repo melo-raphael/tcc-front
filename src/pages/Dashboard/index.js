@@ -23,13 +23,13 @@ export default function Dashboard () {
         userId: userId,
         assetId: 'PETR4',
         value: parseFloat('21.37'),
-        type: 'sell',
+        type: 'buy',
         amount: 100
     },{
         userId: userId,
         assetId: 'OIBR3',
         value: parseFloat('0.980'),
-        type: 'sell',
+        type: 'buy',
         amount: 100
     }]);
 

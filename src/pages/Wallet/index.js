@@ -46,15 +46,15 @@ function Wallet() {
                 <div className="divider"></div>
                 <ul>
                     {listaAtivos.map(asset => (
-                        <>
-                        <li>
+                        <React.Fragment key={asset.assetId}>
+                        <li key={asset.assetId}>
                             <p>{asset.assetId}</p>
                             <p className="quantity">{asset.amount}</p>
                             <p>{asset.value}</p>
                             <p>{asset.type.toUpperCase()}</p>
                         </li>
                         <div className="divider"></div>
-                        </>
+                        </React.Fragment>
                     ))}
                    
                 </ul>
