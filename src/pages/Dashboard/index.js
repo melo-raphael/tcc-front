@@ -7,33 +7,29 @@ import logo from '../../assets/logo.svg';
 import { HubConnectionBuilder } from '@aspnet/signalr'
 
 import { Link, useHistory } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 import { FaPowerOff } from 'react-icons/fa';
 import api from '../../services/api';
 
 export default function Dashboard () {
+    const [userId, setUserId] = useState('');
     const [assets, setAssets] = useState([]);
     const [todayDate, setTodayDate] = useState('');
     const [assetsFromSocket, setAssetFromSocket] = useState([]);
-    const [finalAsset, setFinalAsset] = useState([]);
-    let test = [];
 
-    localStorage.setItem('jwtToken', 'aksjhdashdjaskhdasjkdhasjkdh')
     const token = localStorage.getItem('jwtToken');
 
     const history = useHistory();
     
-    const socketUrl = 'http://ec2-18-228-245-140.sa-east-1.compute.amazonaws.com:5000/hub/notification';
+    const socketUrl = 'http://localhost:5000/hub/notification';
 
     const hubConnection = new HubConnectionBuilder().withUrl(socketUrl).build();
     
     async function connectSocket () {
 
         try {
-            
             await hubConnection.start();
-            
             // hubConnection.invoke('GetQuote', '').then();
-
         } catch(erro) {
             console.log('Erro no socket', erro);
         }
@@ -61,17 +57,17 @@ export default function Dashboard () {
         history.push('/');
     }
 
-    async function handleBuyOrSell(symbol, price, type) {
+    async function handleBuyOrSell(assetId, price, type) {
 
         const data = {
-            userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            assetId: "19d37e13-101a-4c39-9738-16f8967f3ec9",
+            userId: userId,
+            assetId: assetId,
             value: parseFloat(price),
             type: type,
             amount: 100
         }
 
-        const response = await api.post("order/managament/order", data,  {headers: {Authorization: `Bearer ${token}`}});
+        const response = await api.post("order/managament/order", data,  { headers: {Authorization: `Bearer ${token}`} });
 
         console.log('compra ou venda',response)
 
@@ -80,29 +76,30 @@ export default function Dashboard () {
     
     useEffect(() => {
          (async function fecth() {
+            const decodedToken = jwtDecode(token);
+            const { nameid } = decodedToken;
 
-            const assetsResponse = await api.get('order/managament/assets');
+            setUserId(nameid);
+
+            const assetsResponse = await api.get('order/managament/assets', { headers: {Authorization: `Bearer ${token}`} });
+            
             await connectSocket();
             setAssets(assetsResponse.data.data);
 
-          
             hubConnection.on('Quote', (list) => {
                
                 setAssetFromSocket(list)
                
             });
+
             setTodayDate(formatDate());
-
         })();
-
-
 
         return function closeConnection() {
             hubConnection.stop().catch(err => console.log('erro no stop', err));
         }
     }, []);
-    // add user id no array de dependencias ou algo do tipo
-
+    
     return (
         <div className="dashboard-container">
             <header>
@@ -150,7 +147,7 @@ export default function Dashboard () {
                     </div>
 
                     <div className="buy-sell-area">
-                        <div className="button-buy-sell" onClick={() => handleBuyOrSell('PETR4', getPriceBySymbol(asset.symbol) , 'sell')}>
+                        <div className="button-buy-sell" onClick={() => handleBuyOrSell(asset.id,'12.25' , 'sell')}>
                             <div className="buy-sell-header">
                                 Vender
                             </div>
@@ -159,7 +156,7 @@ export default function Dashboard () {
                             </div>
                         </div>
 
-                        <div className="button-buy-sell" onClick={() => handleBuyOrSell('PETR4', getPriceBySymbol(asset.symbol) , 'buy')}>
+                        <div className="button-buy-sell" onClick={() => handleBuyOrSell(asset.id, getPriceBySymbol(asset.symbol) , 'buy')}>
                             <div className="buy-sell-header">
                                 Comprar
                             </div>

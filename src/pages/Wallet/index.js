@@ -7,6 +7,7 @@ import { FaPowerOff } from 'react-icons/fa';
 import './styles.css';
 
 function Wallet() {
+    const socketUrl = 'http://localhost:5000/hub/notification';
     const history = useHistory();
 
     function handleLogout() {
