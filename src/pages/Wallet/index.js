@@ -1,12 +1,18 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import logo from '../../assets/logo.svg';
 import { FaPowerOff } from 'react-icons/fa';
 import './styles.css';
 
 function Wallet() {
+    const history = useHistory();
+
+    function handleLogout() {
+        localStorage.clear();
+        history.push('/');
+    }
     return(
         <div className="wallet-container">
             <header>
@@ -15,7 +21,7 @@ function Wallet() {
                 <Link className="button" to="/dashboard"> 
                    Home
                 </Link>
-                <button type="button">
+                <button type="button" onClick={() => handleLogout()}>
                     <FaPowerOff size={18} color="#8A05BE"/>
                 </button>
             </header>

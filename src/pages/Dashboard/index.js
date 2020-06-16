@@ -6,13 +6,22 @@ import logo from '../../assets/logo.svg';
 
 import { HubConnectionBuilder } from '@aspnet/signalr'
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FaPowerOff } from 'react-icons/fa';
 import api from '../../services/api';
 
 export default function Dashboard () {
     const [assets, setAssets] = useState([]);
     const [todayDate, setTodayDate] = useState('');
+    const [assetsFromSocket, setAssetFromSocket] = useState([]);
+    const [finalAsset, setFinalAsset] = useState([]);
+    let test = [];
+
+    localStorage.setItem('jwtToken', 'aksjhdashdjaskhdasjkdhasjkdh')
+    const token = localStorage.getItem('jwtToken');
+
+    const history = useHistory();
+    
     const socketUrl = 'http://ec2-18-228-245-140.sa-east-1.compute.amazonaws.com:5000/hub/notification';
 
     const hubConnection = new HubConnectionBuilder().withUrl(socketUrl).build();
@@ -23,11 +32,7 @@ export default function Dashboard () {
             
             await hubConnection.start();
             
-            hubConnection.invoke('GetQuote', 23).then((ret) => console.log('invoke', ret));
-
-            hubConnection.on('Quote', (symbol, price, variation) => {
-                console.log('retorno', symbol)
-            });
+            // hubConnection.invoke('GetQuote', '').then();
 
         } catch(erro) {
             console.log('Erro no socket', erro);
@@ -41,17 +46,56 @@ export default function Dashboard () {
             `${date.getDate()}/0${date.getMonth() +1}/${date.getFullYear()}`:
             `${date.getDate()}/${date.getMonth() +1}/${date.getFullYear()}`;
     }
+
+    function getPriceBySymbol(symbol) {
+        let price
+        assetsFromSocket.map(asset => {
+            if (asset.symbol === symbol) price =  asset.price;
+        });
+
+        return price
+    }
     
-    
-    
-    
+    function handleLogout() {
+        localStorage.clear();
+        history.push('/');
+    }
+
+    async function handleBuyOrSell(symbol, price, type) {
+
+        const data = {
+            userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            assetId: "19d37e13-101a-4c39-9738-16f8967f3ec9",
+            value: parseFloat(price),
+            type: type,
+            amount: 100
+        }
+
+        const response = await api.post("order/managament/order", data,  {headers: {Authorization: `Bearer ${token}`}});
+
+        console.log('compra ou venda',response)
+
+    }
+
     
     useEffect(() => {
-        api.get('/order/managament/assets').then(receivedAssets => {
-            setAssets(receivedAssets.data.data);
-        });
-        connectSocket();
-        setTodayDate(formatDate());
+         (async function fecth() {
+
+            const assetsResponse = await api.get('order/managament/assets');
+            await connectSocket();
+            setAssets(assetsResponse.data.data);
+
+          
+            hubConnection.on('Quote', (list) => {
+               
+                setAssetFromSocket(list)
+               
+            });
+            setTodayDate(formatDate());
+
+        })();
+
+
 
         return function closeConnection() {
             hubConnection.stop().catch(err => console.log('erro no stop', err));
@@ -67,7 +111,7 @@ export default function Dashboard () {
                 <Link className="button" to="/wallet"> 
                     Ver carteira
                 </Link>
-                <button type="button">
+                <button type="button" onClick={() => handleLogout()}>
                     <FaPowerOff size={18} color="#8A05BE"/>
                 </button>
             </header>
@@ -106,21 +150,21 @@ export default function Dashboard () {
                     </div>
 
                     <div className="buy-sell-area">
-                        <div className="button-buy-sell">
+                        <div className="button-buy-sell" onClick={() => handleBuyOrSell('PETR4', getPriceBySymbol(asset.symbol) , 'sell')}>
                             <div className="buy-sell-header">
                                 Vender
                             </div>
                             <div className="price">
-                                <span>55,23</span>
+                                <span>{getPriceBySymbol(asset.symbol)}</span>
                             </div>
                         </div>
 
-                        <div className="button-buy-sell">
+                        <div className="button-buy-sell" onClick={() => handleBuyOrSell('PETR4', getPriceBySymbol(asset.symbol) , 'buy')}>
                             <div className="buy-sell-header">
                                 Comprar
                             </div>
                             <div className="price">
-                                <span>56,00</span>
+                                <span>{getPriceBySymbol(asset.symbol)}</span>
                             </div>
                         </div>
                     </div>
